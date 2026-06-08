@@ -32,7 +32,9 @@
     </button>
 
     <div class="btn-next-container">
-        <button class="btn-next" onclick="showModal()">NEXT</button>
+        <button class="btn-next" onclick="showModal()">
+    NEXT
+</button>
     </div>
 </div>
 
@@ -56,26 +58,32 @@ function setAvatar(imagePath) {
 }
 
 function showModal() {
+
     const name = document.querySelector("input").value;
     const greet = document.getElementById("greetText");
 
-    // ❌ CHECK: wala pang avatar
+
     if (selectedAvatar === "") {
+
         greet.innerText = "Please select an avatar first!";
         document.getElementById("modal").style.display = "flex";
-        return;
+
+        return false;
     }
 
-    // ❌ CHECK: walang name
+
     if (name.trim() === "") {
+
         greet.innerText = "Please enter your name first!";
         document.getElementById("modal").style.display = "flex";
-        return;
-    }
 
-    // ✅ SUCCESS
-    greet.innerText = `Hello, ${name}! You're a nice student.`;
-    document.getElementById("modal").style.display = "flex";
+        return false;
+    }
+    
+        localStorage.setItem("username", name);
+        localStorage.setItem("avatar", selectedAvatar);
+
+        window.location.href = "journey_guide.html";
 }
 
 function closeModal() {
