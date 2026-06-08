@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Journey Guide - TaleMe</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+body {
+    margin: 0;
+    font-family: "Fredoka", sans-serif;
+    background: url("fairiesbg.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* FAIRY IMAGE */
+#fairyImg {
+    position: absolute;
+    bottom: 150px;
+    right: 0;
+    width: 250px;
+    transition: 0.5s ease;
+}
+
+/* BOX */
+.container-boxtext {
+    border: 5px solid #B984F8;
+    border-radius: 10px;
+    background: #FFF5E8;
+    width: 80%;
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    padding: 10px;
+    transition: 0.5s ease;
+}
+
+/* NAME BADGE */
+.name {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 18px;
+    margin-top: -20px;
+    transition: 0.5s ease;
+}
+
+/* TEXT */
+.text {
+    min-height: 60px;
+}
+
+/* BUTTON */
+.btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+.nextbtn {
+    border: none;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: "fredoka", sans-serif;
+    font-weight: 500;
+}
+
+.nextbtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>
+
+</head>
+<body>
+
+<!-- FAIRY IMAGE -->
+<img class="fairy" id="fairyImg" src="fairy/Blessie.png">
+
+<!-- BOX -->
+<div class="container-boxtext">
+
+    <h2 class="name" id="fairyName">Blessie</h2>
+
+    <h3 class="text" id="storyText"></h3>
+
+    <div class="btn-wrapper">
+        <button class="nextbtn" id="nextBtn" onclick="nextScene()" disabled>
+            Next...
+        </button>
+    </div>
+
+</div>
+
+<script>
+
+// USER NAME (optional)
+let username = localStorage.getItem("username") || "Streamer";
+
+// STORY DATA
+let scenes = [
+    {
+        name: "Blessie",
+        img: "fairy/Blessie.png",
+        color: "#4DA3FF",
+        text: "I'm Blessie! I'm here to guide you through the blue streams of wisdom."
+    },
+    {
+        name: "Ellaisa",
+        img: "fairy/Ellaisa.png",
+        color: "#FF69B4",
+        text: "I'm Ellaisa! I guard the pink paths of emotion and love."
+    },
+    {
+        name: "Jinefer",
+        img: "fairy/Jinefer.png",
+        color: "#FF4D4D",
+        text: "I'm Jinefer! I protect the red flames of courage."
+    },
+    {
+        name: "Darlene",
+        img: "fairy/Darlene.png",
+        color: "#FFD84D",
+        text: "I'm Darlene! I shine the yellow light of happiness."
+    },
+    {
+        name: "Joana",
+        img: "fairy/Joana.png",
+        color: "#B984F8",
+        text: "And I'm Joana! Together, we're the FairyTales—your guides in every tale."
+    }
+];
+
+let index = 0;
+
+let nextBtn = document.getElementById("nextBtn");
+
+function typeText(text, callback) {
+
+    let i = 0;
+    let speed = 20;
+
+    let story = document.getElementById("storyText");
+    story.innerHTML = "";
+
+    let interval = setInterval(() => {
+
+        story.innerHTML += text[i];
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+
+    }, speed);
+}
+
+function showScene() {
+
+    let scene = scenes[index];
+
+    document.getElementById("fairyName").innerText = scene.name;
+    document.getElementById("fairyImg").src = scene.img;
+
+    document.querySelector(".container-boxtext").style.borderColor = scene.color;
+    document.querySelector(".name").style.backgroundColor = scene.color;
+    nextBtn.style.backgroundColor = scene.color;
+
+    nextBtn.disabled = true;
+
+    typeText(scene.text, () => {
+        nextBtn.disabled = false;
+    });
+}
+
+function nextScene() {
+
+    index++;
+
+    if (index >= scenes.length) {;
+        window.location.href = "guide.html";
+        return;
+    }
+
+    showScene();
+}
+
+// START
+showScene();
+
+</script>
+
+</body>
+</html>
